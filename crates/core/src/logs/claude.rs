@@ -303,7 +303,8 @@ mod tests {
         }
 
         let dir = tempfile::tempdir().unwrap();
-        let log = dir.path().join("p/s.jsonl");
+        // Joined per component: cursor keys use the platform separator.
+        let log = dir.path().join("p").join("s.jsonl");
         std::fs::create_dir_all(log.parent().unwrap()).unwrap();
         let no_model = r#"{"type":"assistant","requestId":"req_n","timestamp":"2026-09-01T12:00:00Z","message":{"usage":{"input_tokens":3,"output_tokens":4}}}"#;
         std::fs::write(
@@ -351,11 +352,17 @@ mod tests {
         assert_eq!(d.records[0].external_key, "req_default");
         assert_eq!(w.records.len(), 1);
         assert_eq!(w.records[0].external_key, "req_work");
-        assert!(d.cursors.keys().all(|k| k.contains("/.claude/projects/")));
+        // Cursor keys use the platform separator.
+        let unix = |k: &String| k.replace('\\', "/");
+        assert!(
+            d.cursors
+                .keys()
+                .all(|k| unix(k).contains("/.claude/projects/"))
+        );
         assert!(
             w.cursors
                 .keys()
-                .all(|k| k.contains("/.claude-work/projects/"))
+                .all(|k| unix(k).contains("/.claude-work/projects/"))
         );
     }
 

@@ -536,7 +536,8 @@ mod tests {
         let root = tempfile::tempdir().unwrap();
         let dir = root.path().join(".claude-work");
         std::fs::create_dir_all(dir.join("projects/p")).unwrap();
-        let log = dir.join("projects/p/s.jsonl");
+        // Joined per component: cursor keys use the platform separator.
+        let log = dir.join("projects").join("p").join("s.jsonl");
         std::fs::write(
             &log,
             concat!(
