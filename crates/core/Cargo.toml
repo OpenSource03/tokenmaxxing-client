@@ -1,0 +1,36 @@
+[package]
+name = "tmx-core"
+description = "Tokenmaxxing client core: providers, credentials, log scanners, sync"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lib]
+name = "tmx_core"
+path = "src/lib.rs"
+
+[dependencies]
+tmx-attest = { path = "../attest" }
+
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+hex = { workspace = true }
+base64 = { workspace = true }
+rand = { workspace = true }
+chrono = { workspace = true }
+
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+ed25519-dalek = "2"
+sha2 = "0.10"
+rusqlite = { version = "0.40", features = ["bundled"] }
+directories = "6"
+urlencoding = "2"
+unicode-normalization = "0.1.25"
+
+[dev-dependencies]
+tempfile = "3"

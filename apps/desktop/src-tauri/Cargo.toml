@@ -1,0 +1,31 @@
+[package]
+name = "tokenmaxxing-desktop"
+description = "Tokenmaxxing menu bar app: proves your AI usage from your own machine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lib]
+name = "tokenmaxxing_desktop_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.6", features = [] }
+
+[dependencies]
+tmx-core = { path = "../../../crates/core" }
+
+tauri = { version = "2.11", features = ["tray-icon", "image-png", "macos-private-api"] }
+tauri-plugin-autostart = "2.5"
+tauri-plugin-opener = "2.5"
+tauri-plugin-positioner = { version = "2.3", features = ["tray-icon"] }
+tauri-plugin-single-instance = "2.4"
+
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+chrono = { workspace = true }

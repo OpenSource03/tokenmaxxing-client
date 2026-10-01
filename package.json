@@ -1,0 +1,18 @@
+{
+  "name": "tokenmaxxing-client",
+  "private": true,
+  "packageManager": "pnpm@10.33.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/engines",
+      "@tailwindcss/oxide",
+      "esbuild",
+      "prisma",
+      "sharp",
+      "unrs-resolver"
+    ]
+  },
+  "scripts": {
+    "build:app": "pnpm --filter @tokenmaxxing/desktop build:app"
+  }
+}

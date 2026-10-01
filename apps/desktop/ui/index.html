@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tokenmaxxing</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app" class="app">
+      <header class="titlebar" data-tauri-drag-region>
+        <div class="brand" data-tauri-drag-region>
+          <span class="coin" aria-hidden="true"></span>
+          <span data-tauri-drag-region>Tokenmaxxing</span>
+        </div>
+        <div class="titlebar-actions">
+          <button id="btn-dashboard" class="icon-btn" type="button" title="Open web dashboard" hidden>↗</button>
+          <button id="btn-hide" class="icon-btn" type="button" title="Hide">×</button>
+        </div>
+      </header>
+      <main id="main" class="main" aria-live="polite">
+        <div class="loading">Loading…</div>
+      </main>
+      <footer class="footer">
+        <label class="check"><input id="autostart" type="checkbox" /> Launch at login</label>
+        <span id="version" class="dim"></span>
+        <button id="btn-quit" class="link" type="button">Quit</button>
+      </footer>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

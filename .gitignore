@@ -1,0 +1,44 @@
+# Node
+node_modules/
+.next/
+dist/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+
+# Rust
+target/
+
+# Env & secrets — never commit
+.env
+.env.*
+!.env.example
+!apps/web/.env.local.example
+# Test env holds placeholders only (auth and attestation are injected in tests)
+!apps/api/.env.test
+*.key
+notary.key
+
+# Local state / artifacts
+.tmx/
+*.dump
+*.presentation.tlsn
+*.attestation.tlsn
+*.secrets.tlsn
+
+# OS
+.DS_Store
+
+# Prisma generated client
+apps/api/src/generated/
+
+# Tauri
+apps/desktop/src-tauri/gen/
+apps/desktop/src-tauri/icons/android/
+apps/desktop/src-tauri/icons/ios/
+
+# Python tooling
+__pycache__/
+*.pyc
+.next-preview/

@@ -1,0 +1,62 @@
+name: Client preview release
+on:
+  push:
+    tags: ["v*-preview.*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Preview version (v0.1.0-preview.1)
+        required: true
+permissions:
+  contents: write
+concurrency:
+  group: client-release-${{ github.event.inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+jobs:
+  bundle:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            targets: aarch64-apple-darwin,x86_64-apple-darwin
+            args: --target universal-apple-darwin
+          - os: windows-latest
+            targets: x86_64-pc-windows-msvc
+            args: ""
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+      - name: Validate preview tag
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ github.event.inputs.tag || github.ref_name }}
+        run: |
+          [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-preview\.[0-9]+$ ]] || exit 1
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.targets }}
+      - uses: Swatinem/rust-cache@v2
+      - run: pnpm install --frozen-lockfile
+      - run: cargo test -p tmx-attest -p tmx-core -p tmx-cli --locked
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          projectPath: apps/desktop
+          tagName: ${{ github.event.inputs.tag || github.ref_name }}
+          releaseName: Tokenmaxxing ${{ github.event.inputs.tag || github.ref_name }}
+          releaseBody: |
+            Preview build for testing against your own Tokenmaxxing server.
+            These bundles are unsigned and not notarised. OS security checks may warn or block installation.
+            Pair from the dashboard with your server URL. The daemon observes existing usage; reference burns are opt-in.
+          releaseDraft: false
+          prerelease: true
+          args: ${{ matrix.args }}

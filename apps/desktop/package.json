@@ -1,0 +1,17 @@
+{
+  "name": "@tokenmaxxing/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Tokenmaxxing menu bar / tray app (Tauri 2)",
+  "scripts": {
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "build:app": "tauri build",
+    "icons": "python3 scripts/make-icons.py && tauri icon src-tauri/icons/source.png -o src-tauri/icons",
+    "typecheck": "node --check ui/app.js",
+    "lint": "node --check ui/app.js"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.11.4"
+  }
+}
